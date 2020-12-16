@@ -1,29 +1,33 @@
-import 'package:contact_tracing/screens/auth/phone_login.dart';
-import 'package:contact_tracing/screens/auth/sign_in.dart';
-import 'package:contact_tracing/screens/home/home.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'pages/splash_page.dart';
+import 'stores/login_store.dart';
 import 'package:firebase_core/firebase_core.dart'; // new requirement for all Firebase projects.
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(); // new for Firebase Auth
-  runApp(MyApp());
+  runApp(App());
 }
 
-class MyApp extends StatelessWidget {
-  User user = FirebaseAuth.instance.currentUser;
+class App extends StatefulWidget {
+  @override
+  _AppState createState() => _AppState();
+}
 
+class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'HaoC Study',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        Provider<LoginStore>(
+          create: (_) => LoginStore(),
+        )
+      ],
+      child: const MaterialApp(
+        home: SplashPage(),
       ),
-      home: (user == null)
-          ? PhoneLogin()
-          : Home(uid: user.uid),
     );
   }
 }
