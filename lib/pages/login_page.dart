@@ -41,16 +41,6 @@ class _LoginPageState extends State<LoginPage> {
                                   children: <Widget>[
                                     Center(
                                       child: Container(
-                                        height: 140,
-                                        constraints: const BoxConstraints(
-                                          maxWidth: 500
-                                        ),
-                                        margin: const EdgeInsets.only(top: 100),
-                                        decoration: const BoxDecoration(color: Color(0xFFE1E0F5), borderRadius: BorderRadius.all(Radius.circular(30))),
-                                      ),
-                                    ),
-                                    Center(
-                                      child: Container(
                                           constraints: const BoxConstraints(maxHeight: 240),
                                           margin: const EdgeInsets.symmetric(horizontal: 8),
                                           child: Image.asset('assets/img/login.png')),

@@ -1,4 +1,4 @@
-import 'package:contact_tracing/pages/home_page.dart';
+import 'package:contact_tracing/pages/home.dart';
 import 'package:contact_tracing/pages/login_page.dart';
 import 'package:contact_tracing/pages/otp_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,9 +26,9 @@ abstract class LoginStoreBase with Store {
   @observable
   User firebaseUser;
 
-  String getUser(){
+  int getUser(){
     if (_auth.currentUser != null){
-      return (_auth.currentUser.uid).toString();
+      return int.parse((_auth.currentUser.phoneNumber).toString().substring(1));
     } else {
       return null;
     }
@@ -121,7 +121,7 @@ abstract class LoginStoreBase with Store {
 
     firebaseUser = result.user;
 
-    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => const HomePage()), (Route<dynamic> route) => false);
+    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => Home()), (Route<dynamic> route) => false);
 
     isLoginLoading = false;
     isOtpLoading = false;

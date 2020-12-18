@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'pages/splash_page.dart';
 import 'stores/login_store.dart';
-import 'package:firebase_core/firebase_core.dart'; // new requirement for all Firebase projects.
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'controller/requirement_state_controller.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,15 +21,44 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
+    Get.put(RequirementStateController());
+
+    final themeData = Theme.of(context);
+    final primary = Colors.blue;
+
     return MultiProvider(
-      providers: [
-        Provider<LoginStore>(
-          create: (_) => LoginStore(),
-        )
-      ],
-      child: const MaterialApp(
-        home: SplashPage(),
-      ),
+        providers: [
+          Provider<LoginStore>(
+            create: (_) => LoginStore(),
+          )
+        ],
+        child: GetMaterialApp(
+          theme: ThemeData(
+            brightness: Brightness.light,
+            primarySwatch: primary,
+            appBarTheme: themeData.appBarTheme.copyWith(
+              brightness: Brightness.light,
+              elevation: 0.5,
+              color: Colors.white,
+              actionsIconTheme: themeData.primaryIconTheme.copyWith(
+                color: primary,
+              ),
+              iconTheme: themeData.primaryIconTheme.copyWith(
+                color: primary,
+              ),
+              textTheme: themeData.primaryTextTheme.copyWith(
+                headline6: themeData.textTheme.headline6.copyWith(
+                  color: primary,
+                ),
+              ),
+            ),
+          ),
+          darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            primarySwatch: primary,
+          ),
+          home: SplashPage(),
+        ),
     );
   }
 }
